@@ -10,7 +10,7 @@ Assumes you have solanaWeb3 in global scope.
 4. Pause Between Attempts (integer)
 ```javascript
 // wait for a response from Solana for this signature, check 40 times max, and pause 4 seconds between checks.
-let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 40, 4000);
+let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 40, 4);
 // if a status other than finalized is returned, handle the error and exit.
 if(status!="finalized"){
   console.log("txFinalized Error: "+status);
