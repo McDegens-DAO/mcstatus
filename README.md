@@ -1,5 +1,5 @@
 # txFinalized()
-An async function to detect if a Solana transaction is finalized or dropped.
+An async method to detect if a Solana transaction is finalized or dropped.
 
 Assumes you have solanaWeb3 in global scope.
 
