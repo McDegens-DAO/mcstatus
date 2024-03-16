@@ -86,4 +86,4 @@ async function txFinalized(cluster, sig, max = 40, seconds = 4){
 
 • Any other status returned should be gracefully handled as an error.
 
-• In some cases Solana returns "processed" status. When this happens the counter is reset to 1 and it will continue checking for a "finalized" status up to the max.
+• In some cases Solana returns "processed" status. When this happens the counter is reset to 1 and it will continue checking for a "finalized" status up to the max attempts.
