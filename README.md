@@ -23,9 +23,10 @@ console.log("Doing more stuff!");
 # Method
 
 ```javascript
-async function txFinalized(cluster,sig,max=40,milliseconds=4000){
+async function txFinalized(cluster, sig, max = 40, seconds = 4){
   return await new Promise(resolve => {
     let start = 1;
+    seconds = (seconds * 1000);
     let connection = new solanaWeb3.Connection(cluster, "confirmed");
     let intervalID = setInterval(async()=>{
       console.log(start+": "+sig);
@@ -60,7 +61,7 @@ async function txFinalized(cluster,sig,max=40,milliseconds=4000){
         clearInterval(intervalID);
         resolve(max+' max retrys reached');
       }
-    },milliseconds);
+    }, seconds);
   });  
 }
 ```
