@@ -15,17 +15,15 @@ Takes into account all three commitment statuses for Solana transactions as outl
 ```javascript
 
 // wait for a response from Solana for this signature, check 40 times max, and pause 4 seconds between checks.
-
 let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 40, 4);
 
 // if a status other than finalized is returned, handle the error and exit.
-
 if(status != "finalized"){
   console.log("txFinalized Error: "+status);
   return;
 }
 
-// otherwise if finalized, do more stuff.
+// otherwise once finalized, do more stuff.
 console.log("Doing more stuff!");
 
 ```
