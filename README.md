@@ -20,7 +20,7 @@ if(status!="finalized"){
 console.log("Doing more stuff!");
 ```
 
-#Method
+# Method
 
 ```javascript
 async function txFinalized(cluster,sig,max=40,milliseconds=4000){
