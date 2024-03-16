@@ -4,7 +4,6 @@ An async function to detect if a Solana transaction is finalized or dropped.
 Assumes you have solanaWeb3 in global scope.
 
 # Usage
-# Parameters
 1. RPC Endpoint URL (string)
 2. Transaction Signature (string)
 3. Max Attempts (integer)
