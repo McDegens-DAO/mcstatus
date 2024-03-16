@@ -3,6 +3,10 @@ An async method to detect if a Solana transaction is finalized or dropped.
 
 Assumes you have solanaWeb3 in global scope.
 
+Takes into account all three commitment statuses for Solana transactions as outlined in Solana docs as well as initial null responses and null responses between statuses. 
+
+[Solana Commitment Statuses](https://docs.solanalabs.com/consensus/commitments)
+
 # Usage
 1. RPC Endpoint URL (string)
 2. Transaction Signature (string)
