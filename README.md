@@ -21,7 +21,7 @@ if(status != "finalized"){
   return;
 }
 
-// otherwise if finalized, do more stuff below.
+// otherwise if finalized, do more stuff.
 console.log("Doing more stuff!");
 
 ```
