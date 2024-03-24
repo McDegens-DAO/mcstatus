@@ -28,6 +28,48 @@ console.log("Doing more stuff!");
 
 ```
 
+```javascript
+
+// example with 3 retry attempts
+
+let cluster = "YOUR_RPC_URL";
+
+try {
+  mintToCollectionTx.sign([SystemFeeSigner]);
+  let txId = await connection.sendTransaction(mintToCollectionTx);
+  let final = await txFinalized(cluster,txId,40,4);
+  if(final != "finalized"){
+    await new Promise(_ => setTimeout(_, 3000));
+    let txId = await connection.sendTransaction(mintToCollectionTx);
+    let final = await txFinalized(cluster,txId,40,4);
+    if(final != "finalized"){
+      await new Promise(_ => setTimeout(_, 3000));
+      let txId = await connection.sendTransaction(mintToCollectionTx);
+      let final = await txFinalized(cluster,txId,40,4);
+      if(final != "finalized"){
+        response.status = "error";
+        response.signature = txId;
+        response.data = "Bad Status: "+final;
+        response.notes = "Failed after 3 retries!";
+        console.log(response);
+      }
+    }
+  }
+  response.status = "final";
+  response.signature = txId;
+  response.data = "Complete";
+  console.log(response);
+}
+catch(error) {
+  response.status = "error";
+  response.signature = false;
+  response.data = "Failed to Send!";
+  response.log = error;
+  console.log(response);
+}
+
+```
+
 # Method
 
 ```javascript
