@@ -33,7 +33,7 @@ console.log("Doing more stuff!");
 // example with 3 retry attempts
 
 let cluster = "YOUR_RPC_URL";
-
+let response = {};
 try {
   mintToCollectionTx.sign([SystemFeeSigner]);
   let txId = await connection.sendTransaction(mintToCollectionTx);
