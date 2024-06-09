@@ -51,6 +51,9 @@ async function txFinalized(sig,max=10,int=4){
       else if(tx_status.value[0].confirmationStatus == "processed"){
         start = 1;
       }
+      else if(tx_status.value[0].confirmationStatus == "confirmed"){
+        start = 1;
+      }
       else if (tx_status.value[0].confirmationStatus == "finalized"){
         if(tx_status.value[0].err != null){
           resolve('program error!');
