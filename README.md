@@ -34,8 +34,7 @@ async function txFinalized(sig,max=10,int=4){
     let intervalID = setInterval(async()=>{
       let tx_status = null;
       tx_status = await connection.getSignatureStatuses([sig], {searchTransactionHistory: true,});
-      console.log(start);
-      console.log(sig);
+      console.log(start+": "+sig);
       if (tx_status != null && typeof tx_status.value != "undefined"){ 
         console.log(tx_status.value);
       }
