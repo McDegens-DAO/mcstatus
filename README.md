@@ -13,105 +13,58 @@ Takes into account all three commitment statuses for Solana transactions as outl
 3. Max Attempts (integer)
 4. Pause Between Attempts (integer)
 ```javascript
-
 // wait for a response from Solana for this signature, check 40 times max, and pause 4 seconds between checks.
-let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 40, 4);
-
+let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 10, 4);
 // if a status other than finalized is returned, handle the error and exit.
 if(status != "finalized"){
   console.log("txFinalized Error: "+status);
   return;
 }
-
 // otherwise once finalized, do more stuff.
 console.log("Doing more stuff!");
-
-```
-
-```javascript
-
-// example with 3 retry attempts
-
-let cluster = "YOUR_RPC_URL";
-let response = {};
-try {
-  mintToCollectionTx.sign([SystemFeeSigner]);
-  let txId = await connection.sendTransaction(mintToCollectionTx);
-  let final = await txFinalized(cluster,txId,40,4);
-  if(final != "finalized"){
-    await new Promise(_ => setTimeout(_, 3000));
-    let txId = await connection.sendTransaction(mintToCollectionTx);
-    let final = await txFinalized(cluster,txId,40,4);
-    if(final != "finalized"){
-      await new Promise(_ => setTimeout(_, 3000));
-      let txId = await connection.sendTransaction(mintToCollectionTx);
-      let final = await txFinalized(cluster,txId,40,4);
-      if(final != "finalized"){
-        response.status = "error";
-        response.signature = txId;
-        response.data = "Bad Status: "+final;
-        response.notes = "Failed after 3 retries!";
-        console.log(response);
-      }
-    }
-  }
-  response.status = "final";
-  response.signature = txId;
-  response.data = "Complete";
-  console.log(response);
-}
-catch(error) {
-  response.status = "error";
-  response.signature = false;
-  response.data = "Failed to Send!";
-  response.log = error;
-  console.log(response);
-}
-
 ```
 
 # Method
 
 ```javascript
-async function txFinalized(cluster, sig, max = 40, seconds = 4){
+async function txFinalized(sig,max=10,int=4){
   return await new Promise(resolve => {
     let start = 1;
-    seconds = (seconds * 1000);
-    let connection = new solanaWeb3.Connection(cluster, "confirmed");
+    let connection = new solanaWeb3.Connection(conf.cluster, "confirmed");
     let intervalID = setInterval(async()=>{
-      console.log(start+": "+sig);
-      let tx_status = await connection.getSignatureStatuses([sig], {searchTransactionHistory: true,});
-      console.log(tx_status.value[0]);
-      if(start > 20 && tx_status.value[0] == null){
-        clearInterval(intervalID);
-        console.log('Oh No! Something Happened!');
-        resolve('Oh No! Something Happened!');
+      let tx_status = null;
+      tx_status = await connection.getSignatureStatuses([sig], {searchTransactionHistory: true,});
+      console.log(start);
+      console.log(sig);
+      if (tx_status != null && typeof tx_status.value != "undefined"){ 
+        console.log(tx_status.value);
       }
-      if (typeof tx_status == "undefined" || 
+      else{
+        console.log("failed to get status...");
+      }
+      if (tx_status == null || 
       typeof tx_status.value == "undefined" || 
       tx_status.value == null || 
       tx_status.value[0] == null || 
       typeof tx_status.value[0] == "undefined" || 
       typeof tx_status.value[0].confirmationStatus == "undefined"){} 
-      else if (tx_status.value[0].confirmationStatus == "processed"){
-        console.log('Transaction Processed!');
-        start = 1;
-      }
-      else if(tx_status.value[0].confirmationStatus == "confirmed"){
-        console.log('Transaction Confirmed!');
+      else if(tx_status.value[0].confirmationStatus == "processed"){
         start = 1;
       }
       else if (tx_status.value[0].confirmationStatus == "finalized"){
-        console.log('Transaction Complete!');
-        clearInterval(intervalID);
+        if(tx_status.value[0].err != null){
+          resolve('program error!');
+          clearInterval(intervalID);
+        }
         resolve('finalized');
+        clearInterval(intervalID);
       }
       start++;
-      if(start==max){
+      if(start == max + 1){
+        resolve((max * int)+' seconds max wait reached');
         clearInterval(intervalID);
-        resolve(max+' max retrys reached');
       }
-    }, seconds);
+    },(int * 1000));
   });  
 }
 ```
