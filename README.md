@@ -1,36 +1,37 @@
 # txFinalized()
 An async method to detect if a Solana transaction is finalized or dropped.
 
-Assumes you have solanaWeb3 in global scope.
+By default the method assumes you have solanaWeb3 in global scope. If you're importing solanaWeb3 methods individually you will need to adjust the txFinalized source code by removing all instances of "solanaWeb3.".  
 
-Takes into account all three commitment statuses for Solana transactions as outlined in Solana docs as well as initial null responses and null responses between status changes. 
+Takes into account all three commitment statuses for Solana transactions as outlined in Solana docs as well as initial null responses and possible null responses between status changes. 
 
 [Solana Commitment Statuses](https://docs.solanalabs.com/consensus/commitments)
 
-# Usage
+# Required
 1. RPC Endpoint URL (string)
 2. Transaction Signature (string)
 3. Max Attempts (integer)
 4. Seconds Between Attempts (integer)
+
+# Usage
 ```javascript
-// wait for a response from Solana for this signature, check 40 times max, and pause 4 seconds between checks.
+// wait for a response from Solana for this signature, check 10 times max, and pause 4 seconds between checks.
 let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 10, 4);
 // if a status other than finalized is returned, handle the error and exit.
 if(status != "finalized"){
   console.log("txFinalized Error: "+status);
   return;
 }
-// otherwise once finalized, do more stuff.
+// or once finalized, do more stuff.
 console.log("Doing more stuff!");
 ```
 
 # Method
-
 ```javascript
-async function txFinalized(sig,max=10,int=4){
+async function txFinalized(rpc,sig,max=10,int=4){
   return await new Promise(resolve => {
     let start = 1;
-    let connection = new solanaWeb3.Connection(conf.cluster, "confirmed");
+    let connection = new solanaWeb3.Connection(rpc, "confirmed");
     let intervalID = setInterval(async()=>{
       let tx_status = null;
       tx_status = await connection.getSignatureStatuses([sig], {searchTransactionHistory: true,});
