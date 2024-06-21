@@ -80,4 +80,4 @@ async function txFinalized(rpc,sig,max=10,int=4){
 
 • Any other status returned should be gracefully handled as an error.
 
-• Program errors are captured and returned.
+• Program errors return "program error!" but could also return error details with minimal modification.
