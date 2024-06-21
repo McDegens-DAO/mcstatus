@@ -1,7 +1,7 @@
 # txFinalized()
 An async method to detect if a Solana transaction is finalized or dropped.
 
-Can be used with SolanaWeb3 in global scope or by importing the Connection method from the SolanaWeb3 module.
+Can be used with solanaWeb3 in global scope or by importing the Connection method from the solanaWeb3 module.
 
 Takes into account all three commitment statuses for Solana transactions as outlined in Solana docs as well as initial null responses and possible null responses between status changes. 
 
