@@ -37,6 +37,6 @@ async function txFinalized(rpc,sig,max=10,int=4){
         resolve((max * int)+' seconds max wait reached');
         clearInterval(intervalID);
       }
-  },(int * 1000));
-});  
+    },(int * 1000));
+  });  
 }
