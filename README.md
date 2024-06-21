@@ -31,7 +31,13 @@ console.log("Doing more stuff!");
 async function txFinalized(rpc,sig,max=10,int=4){
   return await new Promise(resolve => {
     let start = 1;
-    let connection = new solanaWeb3.Connection(rpc, "confirmed");
+    let connection = null;
+    if(typeof solanaWeb3 != "undefined"){
+      connection = new solanaWeb3.Connection(rpc, "confirmed");
+    }
+    else{
+      connection = new Connection(rpc, "confirmed");
+    }
     let intervalID = setInterval(async()=>{
       let tx_status = null;
       tx_status = await connection.getSignatureStatuses([sig], {searchTransactionHistory: true,});
