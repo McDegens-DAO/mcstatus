@@ -80,7 +80,7 @@ async function mcstatus(rpc,sig,max=10,int=4){
 
 # Details
 
-• This js method will continually get a Solana transaction status every 4 seconds up to the defined max or default 10 tries.
+• Will continually get a Solana transaction status every 4 seconds up to the defined max or default 10 tries.
 
 • If/when a "finalized" status is return from Solana, the method returns "finalized" as a string.
 
