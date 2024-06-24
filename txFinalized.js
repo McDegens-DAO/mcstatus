@@ -1,4 +1,4 @@
-async function txFinalized(rpc,sig,max=10,int=4){
+async function mcstatus(rpc,sig,max=10,int=4){
   return await new Promise(resolve => {
     let start = 1;
     let connection = null;
