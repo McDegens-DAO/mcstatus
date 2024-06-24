@@ -1,4 +1,4 @@
-# txFinalized()
+# mcstatus()
 An async method to detect if a Solana transaction is finalized or dropped.
 
 Can be used with solanaWeb3 in global scope or by importing the Connection method from the solanaWeb3 module.
@@ -16,7 +16,7 @@ Takes into account all three commitment statuses for Solana transactions as outl
 # Usage
 ```javascript
 // wait for a response from Solana for this signature, check 10 times max, and pause 4 seconds between checks.
-let status = await txFinalized("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 10, 4);
+let status = await mcstatus("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 10, 4);
 // if a status other than finalized is returned, handle the error and exit.
 if(status != "finalized"){
   console.log("txFinalized Error: "+status);
@@ -28,7 +28,7 @@ console.log("Doing more stuff!");
 
 # Method
 ```javascript
-async function txFinalized(rpc,sig,max=10,int=4){
+async function mcstatus(rpc,sig,max=10,int=4){
   return await new Promise(resolve => {
     let start = 1;
     let connection = null;
