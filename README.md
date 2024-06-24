@@ -22,7 +22,7 @@ if(status != "finalized"){
   console.log("mcstatus error: "+status);
   return;
 }
-// or once finalized, do more stuff.
+// or if finalized with no errors, do more stuff.
 console.log("do more stuff!");
 ```
 
