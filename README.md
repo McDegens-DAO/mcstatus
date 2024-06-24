@@ -19,11 +19,11 @@ Takes into account all three commitment statuses for Solana transactions as outl
 let status = await mcstatus("YOUR_RPC_URL", "SOLANA_TX_SIGNATURE", 10, 4);
 // if a status other than finalized is returned, handle the error and exit.
 if(status != "finalized"){
-  console.log("txFinalized Error: "+status);
+  console.log("mcstatus error: "+status);
   return;
 }
 // or once finalized, do more stuff.
-console.log("Doing more stuff!");
+console.log("do more stuff!");
 ```
 
 # Method
